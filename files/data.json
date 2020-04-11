@@ -1,0 +1,14 @@
+{
+    "errors": [
+        {
+            "application": "",
+            "host": "",
+            "type": "",
+            "source": "",
+            "message": "",
+            "user": "",
+            "statusCode": "",
+            "timeUTC": ""
+        }
+    ]
+}

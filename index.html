@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Error crunch time, lets get to crunching!</title>
+    <script type="text/javascript" src="Chart.js"></script>
+    <script type="text/javascript" src="ErrorCruncher.js"></script>
+    <script type="text/javascript">
+
+        window.addEventListener("load", function (event) {
+            ErrorCruncher.showChart('errorsByType', 'pie');
+            ErrorCruncher.showChart('errorsByUser', 'pie');
+            ErrorCruncher.showChart('errorsByDistrict', 'pie');
+            ErrorCruncher.showChart('errorsOverTime', 'line');
+        });
+
+    </script>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            background-color: #2196F3;
+        }
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+        }
+
+        .bottom-grid-item {
+            grid-column: 1 / 4;
+        }
+
+        .pie-chart {
+            width: 400px;
+            height: 400px;
+        }
+
+        .line-bar-chart {
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="grid-container">
+        <div class="grid-item pie-chart">
+            <canvas id="errorsByType"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
+            <canvas id="errorsByUser"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
+            <canvas id="errorsByDistrict"></canvas>
+        </div>
+        <div class="grid-item bottom-grid-item line-bar-chart">
+            <canvas id="errorsOverTime"></canvas>
+        </div>
+    </div>
+</body>
+</html>
