@@ -57,14 +57,18 @@
             var errors = ErrorCruncher.generateDummyErrors(),
                 errorsByType = ErrorCruncher.errorsByType(errors),
                 errorsByUser = ErrorCruncher.errorsByUser(errors),
-                errorsByHost = ErrorCruncher.errorsByHost(errors),
-                errorsByMonth = ErrorCruncher.errorsByMonth(errors);
+                errorsByHost = ErrorCruncher.errorsByHost(errors);
+                //errorsByMonth = ErrorCruncher.errorsByMonth(errors);
 
-
+            console.log(errorsByType);
             showChart('errorsByType', 'pie', errorsByType.labels, errorsByType.data);
+
+            console.log(errorsByUser);
             showChart('errorsByUser', 'pie', errorsByUser.labels, errorsByUser.data);
-            showChart('errorsByDistrict', 'pie', errorsByHost.labels, errorsByHost.data);
-            showChart('errorsOverTime', 'line', errorsByMonth.labels, errorsByMonth.data);
+
+            console.log(errorsByHost);
+            showChart('errorsByHost', 'pie', errorsByHost.labels, errorsByHost.data);
+            // showChart('errorsOverTime', 'line', errorsByMonth.labels, errorsByMonth.data);
         });
 
     </script>
@@ -105,7 +109,7 @@
             <canvas id="errorsByUser"></canvas>
         </div>
         <div class="grid-item pie-chart">
-            <canvas id="errorsByDistrict"></canvas>
+            <canvas id="errorsByHost"></canvas>
         </div>
         <div class="grid-item bottom-grid-item line-bar-chart">
             <canvas id="errorsOverTime"></canvas>
