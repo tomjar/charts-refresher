@@ -51,6 +51,10 @@
 
         window.addEventListener("load", function (event) {
 
+            var test = ErrorCruncher.getDataFileAsync(function(response){
+                console.log(response);
+            });
+
             var errors = ErrorCruncher.generateDummyErrors(),
                 errorsByType = ErrorCruncher.errorsByType(errors),
                 errorsByUser = ErrorCruncher.errorsByUser(errors),

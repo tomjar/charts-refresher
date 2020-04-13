@@ -3,6 +3,30 @@ var ErrorCruncher = {
     helloworld: function () {
         alert('hello world!');
     },
+    /**
+     * 
+     * @param {Function} callback 
+     */
+    getDataFileAsync: function(callback){
+        'use strict';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/files/data.csv', true);
+        xhr.setRequestHeader("Content-Type", "text/plain");
+        xhr.setRequestHeader("Accept", "text/plain");
+
+        xhr.onreadystatechange = function () {
+            // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                callback(xhr.response);
+            }
+        };
+
+        xhr.onerror = function (e) {
+            console.warn("Error occurred: ".concat(e, " Status: ").concat(xhr.statusText));
+        };
+
+        xhr.send();
+    },
     generateRandomHost: function(){
         var hosts = 
         [
