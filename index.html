@@ -8,14 +8,14 @@
     <script type="text/javascript" src="ErrorCruncher.js"></script>
     <script type="text/javascript">
 
-        function showChart(canvasid, chartType, labels, data) {
+        function showChart(canvasid, chartType, labels, data, chartName) {
             var ctx = document.getElementById(canvasid).getContext('2d');
             var myChart = new Chart(ctx, {
                 type: chartType, // bar, line, pie
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '# of Votes',
+                        label: chartName,
                         data: data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -51,31 +51,59 @@
 
         window.addEventListener("load", function (event) {
 
-            var labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-            var data = [12, 19, 3, 5, 2, 3];
-
             var errors = ErrorCruncher.generateDummyErrors(),
                 errorsByType = ErrorCruncher.errorsByType(errors),
                 errorsByUser = ErrorCruncher.errorsByUser(errors),
-                errorsByHost = ErrorCruncher.errorsByHost(errors);
-                //errorsByMonth = ErrorCruncher.errorsByMonth(errors);
+                errorsByHost = ErrorCruncher.errorsByHost(errors),
+                errorsBySource = ErrorCruncher.errorsBySource(errors),
+                errorsByMonth = ErrorCruncher.errorsByMonth(errors);
 
-            console.log(errorsByType);
-            showChart('errorsByType', 'pie', errorsByType.labels, errorsByType.data);
+            // console.log(errorsByType);
+            showChart(
+                'errorsByType', 
+                'bar', 
+                errorsByType.labels, 
+                errorsByType.data, 
+                'Errors by Type');
 
-            console.log(errorsByUser);
-            showChart('errorsByUser', 'pie', errorsByUser.labels, errorsByUser.data);
+            // console.log(errorsByUser);
+            showChart(
+                'errorsByUser', 
+                'bar', 
+                errorsByUser.labels, 
+                errorsByUser.data, 
+                'Errors by User');
 
-            console.log(errorsByHost);
-            showChart('errorsByHost', 'pie', errorsByHost.labels, errorsByHost.data);
-            // showChart('errorsOverTime', 'line', errorsByMonth.labels, errorsByMonth.data);
+            // console.log(errorsByHost);
+            showChart(
+                'errorsByHost', 
+                'bar', 
+                errorsByHost.labels, 
+                errorsByHost.data, 
+                'Errors by Host');
+
+            // console.log(errorsBySource);
+            showChart(
+                'errorsBySource', 
+                'bar', 
+                errorsBySource.labels, 
+                errorsBySource.data, 
+                'Errors by Source');
+
+            // console.log(errorsByMonth);
+            showChart(
+                'errorsOverTime', 
+                'line', 
+                errorsByMonth.labels, 
+                errorsByMonth.data,
+                'Errors by Month');
         });
 
     </script>
     <style>
         .grid-container {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: auto auto;
             background-color: #2196F3;
         }
 
@@ -87,7 +115,7 @@
         }
 
         .bottom-grid-item {
-            grid-column: 1 / 4;
+            grid-column: 1 / 3;
         }
 
         .pie-chart {
@@ -110,6 +138,9 @@
         </div>
         <div class="grid-item pie-chart">
             <canvas id="errorsByHost"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
+            <canvas id="errorsBySource"></canvas>
         </div>
         <div class="grid-item bottom-grid-item line-bar-chart">
             <canvas id="errorsOverTime"></canvas>
