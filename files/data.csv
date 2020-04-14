@@ -1,0 +1,2 @@
+errorid,application,host,type,source,message,user,statuscode,timeepoch,sequence
+-1,"default application","defaulthost","defaulttype",""

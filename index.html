@@ -7,8 +7,7 @@
     <script type="text/javascript" src="Chart.js"></script>
     <script type="text/javascript" src="ErrorCruncher.js"></script>
     <script type="text/javascript">
-
-        function showChart(canvasid, chartType, labels, data, chartName) {
+        function showChart(canvasid, chartType, labels, data, colors, chartName) {
             var ctx = document.getElementById(canvasid).getContext('2d');
             var myChart = new Chart(ctx, {
                 type: chartType, // bar, line, pie
@@ -17,22 +16,8 @@
                     datasets: [{
                         label: chartName,
                         data: data,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
+                        backgroundColor: colors,
+                        borderColor: colors,
                         borderWidth: 1
                     }]
                 },
@@ -51,64 +36,80 @@
 
         window.addEventListener("load", function (event) {
 
-            var test = ErrorCruncher.getDataFileAsync(function(response){
-                console.log(response);
+            ErrorCruncher.getDataFileAsync(function (response) {
+                var errors = JSON.parse(response).errors,
+                    errorsByType = ErrorCruncher.errorsByType(errors),
+                    errorsByUser = ErrorCruncher.errorsByUser(errors),
+                    errorsByHost = ErrorCruncher.errorsByHost(errors),
+                    errorsBySource = ErrorCruncher.errorsBySource(errors),
+                    errorsByMonth = ErrorCruncher.errorsByMonth(errors),
+                    errorsByDay = ErrorCruncher.errorsByDay(errors);
+
+                // console.log(errorsByType);
+                showChart(
+                    'errorsByType',
+                    'bar',
+                    errorsByType.labels,
+                    errorsByType.data,
+                    errorsByType.colors,
+                    'Errors by Type');
+
+                // console.log(errorsByUser);
+                showChart(
+                    'errorsByUser',
+                    'bar',
+                    errorsByUser.labels,
+                    errorsByUser.data,
+                    errorsByUser.colors,
+                    'Errors by User');
+
+                // console.log(errorsByHost);
+                showChart(
+                    'errorsByHost',
+                    'bar',
+                    errorsByHost.labels,
+                    errorsByHost.data,
+                    errorsByHost.colors,
+                    'Errors by Host');
+
+                // console.log(errorsBySource);
+                showChart(
+                    'errorsBySource',
+                    'bar',
+                    errorsBySource.labels,
+                    errorsBySource.data,
+                    errorsBySource.colors,
+                    'Errors by Source');
+
+                // console.log(errorsByMonth);
+                showChart(
+                    'errorsByMonth',
+                    'line',
+                    errorsByMonth.labels,
+                    errorsByMonth.data,
+                    errorsByMonth.colors,
+                    'Errors by Month');
+
+                // console.log(errorsByDay);
+                showChart(
+                    'errorsByDay',
+                    'line',
+                    errorsByDay.labels,
+                    errorsByDay.data,
+                    errorsByDay.colors,
+                    'Errors by Day'
+                )
+
+
             });
-
-            var errors = ErrorCruncher.generateDummyErrors(),
-                errorsByType = ErrorCruncher.errorsByType(errors),
-                errorsByUser = ErrorCruncher.errorsByUser(errors),
-                errorsByHost = ErrorCruncher.errorsByHost(errors),
-                errorsBySource = ErrorCruncher.errorsBySource(errors),
-                errorsByMonth = ErrorCruncher.errorsByMonth(errors);
-
-            // console.log(errorsByType);
-            showChart(
-                'errorsByType', 
-                'bar', 
-                errorsByType.labels, 
-                errorsByType.data, 
-                'Errors by Type');
-
-            // console.log(errorsByUser);
-            showChart(
-                'errorsByUser', 
-                'bar', 
-                errorsByUser.labels, 
-                errorsByUser.data, 
-                'Errors by User');
-
-            // console.log(errorsByHost);
-            showChart(
-                'errorsByHost', 
-                'bar', 
-                errorsByHost.labels, 
-                errorsByHost.data, 
-                'Errors by Host');
-
-            // console.log(errorsBySource);
-            showChart(
-                'errorsBySource', 
-                'bar', 
-                errorsBySource.labels, 
-                errorsBySource.data, 
-                'Errors by Source');
-
-            // console.log(errorsByMonth);
-            showChart(
-                'errorsOverTime', 
-                'line', 
-                errorsByMonth.labels, 
-                errorsByMonth.data,
-                'Errors by Month');
         });
-
     </script>
     <style>
         .grid-container {
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: auto;
             background-color: #2196F3;
+            text-align: center;
         }
 
         .grid-item {
@@ -117,17 +118,6 @@
             padding: 20px;
             font-size: 30px;
         }
-
-        .bottom-grid-item {
-            grid-column: 1 / 3;
-        }
-
-        .pie-chart {
-            width: 400px;
-            height: 400px;
-        }
-
-        .line-bar-chart {}
     </style>
 </head>
 
@@ -147,7 +137,10 @@
             <canvas id="errorsBySource"></canvas>
         </div>
         <div class="grid-item bottom-grid-item line-bar-chart">
-            <canvas id="errorsOverTime"></canvas>
+            <canvas id="errorsByMonth"></canvas>
+        </div>
+        <div class="grid-item bottom-grid-item line-bar-chart">
+            <canvas id="errorsByDay"></canvas>
         </div>
     </div>
 </body>

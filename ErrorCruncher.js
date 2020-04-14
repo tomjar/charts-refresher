@@ -3,16 +3,19 @@ var ErrorCruncher = {
     helloworld: function () {
         alert('hello world!');
     },
+    getRandomNumber: function (max) {
+        return Math.floor(Math.random() * max);
+    },
     /**
      * 
      * @param {Function} callback 
      */
-    getDataFileAsync: function(callback){
+    getDataFileAsync: function (callback) {
         'use strict';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/files/data.csv', true);
-        xhr.setRequestHeader("Content-Type", "text/plain");
-        xhr.setRequestHeader("Accept", "text/plain");
+        xhr.open('GET', '/files/data.json', true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Accept", "application/json");
 
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
@@ -27,9 +30,8 @@ var ErrorCruncher = {
 
         xhr.send();
     },
-    generateRandomHost: function(){
-        var hosts = 
-        [
+    generateRandomHost: function () {
+        var hosts = [
             "localhost:8080",
             "localhost:8081",
             "localhost:8082",
@@ -46,9 +48,8 @@ var ErrorCruncher = {
         return host;
     },
 
-    generateRandomType: function(){
-        var types =
-        [
+    generateRandomType: function () {
+        var types = [
             "AggregateException",
             "ArithmeticException",
             "DivideByZeroException",
@@ -66,9 +67,8 @@ var ErrorCruncher = {
         return type;
     },
 
-    generateRandomUser: function(){
-        var users =
-        [
+    generateRandomUser: function () {
+        var users = [
             "Bob",
             "John",
             "Henry",
@@ -85,9 +85,8 @@ var ErrorCruncher = {
 
         return user;
     },
-    generateRandomSource: function(){
-        var sources = 
-        [
+    generateRandomSource: function () {
+        var sources = [
             "home.html",
             "login.html",
             "other.html",
@@ -104,10 +103,10 @@ var ErrorCruncher = {
 
         return source;
     },
-    generateRandomEpoch: function(){
-            // 1586736047 today
+    generateRandomEpoch: function () {
+        // 1586736047 today
 
-            return Math.floor(Math.random() * Date.now());
+        return Math.floor(Math.random() * Date.now());
     },
 
     /**
@@ -120,8 +119,7 @@ var ErrorCruncher = {
         var errors = [];
 
         for (let i = 0; i < count; i++) {
-            var error =
-            {
+            var error = {
                 "errorId": -1,
                 "Application": "defaultapplication",
                 "Host": ErrorCruncher.generateRandomHost(),
@@ -137,23 +135,36 @@ var ErrorCruncher = {
 
             errors.push(error);
         }
-
+        // var _100 = errors.slice(0, 99);
+        //console.log(JSON.stringify(_100));
         return errors;
     },
-    getMonthName: function(monthNumber){
-        switch(monthNumber){
-            case 0: return 'January';
-            case 1: return 'Feburary';
-            case 2: return 'March';
-            case 3: return 'April';
-            case 4: return 'May';
-            case 5: return 'June';
-            case 6: return 'July';
-            case 7: return 'August';
-            case 8: return 'September';
-            case 9: return 'October';
-            case 10: return 'November';
-            case 11: return 'December';
+    getMonthName: function (monthNumber) {
+        switch (monthNumber) {
+            case 0:
+                return 'January';
+            case 1:
+                return 'Feburary';
+            case 2:
+                return 'March';
+            case 3:
+                return 'April';
+            case 4:
+                return 'May';
+            case 5:
+                return 'June';
+            case 6:
+                return 'July';
+            case 7:
+                return 'August';
+            case 8:
+                return 'September';
+            case 9:
+                return 'October';
+            case 10:
+                return 'November';
+            case 11:
+                return 'December';
         }
     },
 
@@ -166,18 +177,27 @@ var ErrorCruncher = {
     errorsByType: function (errors) {
         const types = [...new Set(errors.map(item => item.Type))];
 
-        var labelAndCountsArr = [];
-        for(let i = 0; i < types.length; i++){
+        var labelCountColorArr = [];
+        for (let i = 0; i < types.length; i++) {
             let distinct = types[i];
 
             let count = errors.filter(error => error.Type === distinct).length;
-            labelAndCountsArr.push({"label": distinct, "count":count });
+            labelCountColorArr.push({
+                "label": distinct,
+                "count": count,
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+            });
         }
 
-        var labels = labelAndCountsArr.map(item => item.label);
-        var counts = labelAndCountsArr.map(item => item.count);
-        
-        return {"labels":labels,"data": counts};
+        var labels = labelCountColorArr.map(item => item.label);
+        var counts = labelCountColorArr.map(item => item.count);
+        var colors = labelCountColorArr.map(item => item.color);
+
+        return {
+            "labels": labels,
+            "data": counts,
+            "colors": colors
+        };
     },
     // TODO: ErrorsByUser
     /**
@@ -187,18 +207,27 @@ var ErrorCruncher = {
     errorsByUser: function (errors) {
         const users = [...new Set(errors.map(item => item.User))];
 
-        var labelAndCountsArr = [];
-        for(let i = 0; i < users.length; i++){
+        var labelCountColorArr = [];
+        for (let i = 0; i < users.length; i++) {
             let distinct = users[i];
 
             let count = errors.filter(error => error.User === distinct).length;
-            labelAndCountsArr.push({"label": distinct, "count":count });
+            labelCountColorArr.push({
+                "label": distinct,
+                "count": count,
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+            });
         }
 
-        var labels = labelAndCountsArr.map(item => item.label);
-        var counts = labelAndCountsArr.map(item => item.count);
-        
-        return {"labels":labels,"data": counts};
+        var labels = labelCountColorArr.map(item => item.label);
+        var counts = labelCountColorArr.map(item => item.count);
+        var colors = labelCountColorArr.map(item => item.color);
+
+        return {
+            "labels": labels,
+            "data": counts,
+            "colors": colors
+        };
     },
     // TODO: ErrorsByDistricts
     /**
@@ -208,18 +237,27 @@ var ErrorCruncher = {
     errorsByHost: function (errors) {
         const hosts = [...new Set(errors.map(item => item.Host))];
 
-        var labelAndCountsArr = [];
-        for(let i = 0; i < hosts.length; i++){
+        var labelCountColorArr = [];
+        for (let i = 0; i < hosts.length; i++) {
             let distinct = hosts[i];
 
             let count = errors.filter(error => error.Host === distinct).length;
-            labelAndCountsArr.push({"label": distinct, "count":count });
+            labelCountColorArr.push({
+                "label": distinct,
+                "count": count,
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+            });
         }
 
-        var labels = labelAndCountsArr.map(item => item.label);
-        var counts = labelAndCountsArr.map(item => item.count);
-        
-        return {"labels":labels,"data": counts};
+        var labels = labelCountColorArr.map(item => item.label);
+        var counts = labelCountColorArr.map(item => item.count);
+        var colors = labelCountColorArr.map(item => item.color);
+
+        return {
+            "labels": labels,
+            "data": counts,
+            "colors": colors
+        };
     },
     /**
      * 
@@ -228,23 +266,27 @@ var ErrorCruncher = {
     errorsBySource: function (errors) {
         const sources = [...new Set(errors.map(item => item.Source))];
 
-        var labelAndCountsArr = [];
-        for(let i = 0; i < sources.length; i++){
+        var labelCountColorArr = [];
+        for (let i = 0; i < sources.length; i++) {
             let distinct = sources[i];
 
             let count = errors.filter(error => error.Source === distinct).length;
-            labelAndCountsArr.push({"label": distinct, "count":count });
+            labelCountColorArr.push({
+                "label": distinct,
+                "count": count,
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+            });
         }
 
-        var labels = labelAndCountsArr.map(item => item.label);
-        var counts = labelAndCountsArr.map(item => item.count);
-        
-        return {"labels":labels,"data": counts};
-    },
-    // line
-    // TODO: ErrorsByDay
-    errorsByDay: function (errors) {
+        var labels = labelCountColorArr.map(item => item.label),
+            counts = labelCountColorArr.map(item => item.count),
+            colors = labelCountColorArr.map(item => item.color);
 
+        return {
+            "labels": labels,
+            "data": counts,
+            "colors": colors
+        };
     },
     // TODO: ErrorsByMonth
     /**
@@ -258,61 +300,116 @@ var ErrorCruncher = {
         // var hours = date.getHours();
         // console.log(errors);
         const months = [...new Set(errors
-            .map(item => new Date(item.TimeEpoch).getMonth()))]
-            .sort(function(a,b){
+                .map(item => new Date(item.TimeEpoch).getMonth()))]
+            .sort(function (a, b) {
                 return a - b;
             });
 
         // console.log(months);
-        var labelAndCountsArr = [];
-        for(let i = 0; i < months.length; i++){
+        var labelCountColorArr = [];
+        for (let i = 0; i < months.length; i++) {
             let distinct = months[i];
 
             let count = errors.filter(error => new Date(error.TimeEpoch).getMonth() === distinct).length;
-            labelAndCountsArr.push({"label": distinct, "count":count });
+            labelCountColorArr.push({
+                "label": distinct,
+                "count": count,
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+            });
         }
 
-        var labels = labelAndCountsArr.map(item => ErrorCruncher.getMonthName(item.label));
-        var counts = labelAndCountsArr.map(item => item.count);
-        
-        return {"labels":labels,"data": counts};
+        var labels = labelCountColorArr.map(item => ErrorCruncher.getMonthName(item.label)),
+            counts = labelCountColorArr.map(item => item.count),
+            colors = labelCountColorArr.map(item => item.color);
+
+        return {
+            "labels": labels,
+            "data": counts,
+            "colors": colors
+        };
+    },
+    // TODO: ErrorsByMonth
+    /**
+     * TODO
+     * @param {Array} errors 
+     */
+    errorsByDay: function (errors) {
+
+        // var date = new Date(unix_timestamp * 1000);
+        // Hours part from the timestamp
+        // var hours = date.getHours();
+        // console.log(errors);
+        const days = [...new Set(errors
+                .map(function (item) {
+                    let temp = new Date(item.TimeEpoch);
+                    temp.setMinutes(0);
+                    temp.setSeconds(0);
+                    temp.setMilliseconds(0);
+                    temp.setHours(0);
+                    return temp;
+                }))]
+            .sort(function (a, b) {
+                return a.getTime() - b.getTime();
+            });
+
+        // console.log(days);
+        var labelCountColorArr = [];
+        for (let i = 0; i < days.length; i++) {
+            let distinct = days[i];
+
+            let grouped = errors.filter(function (error) {
+                let temp = new Date(error.TimeEpoch);
+                temp.setMinutes(0);
+                temp.setSeconds(0);
+                temp.setMilliseconds(0);
+                temp.setHours(0);
+                return temp.getTime() === distinct.getTime();
+            });
+
+            labelCountColorArr.push({
+                "label": grouped[0].TimeEpoch,
+                "count": grouped.length,
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+            });
+        }
+
+        /**
+         * Source: https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+         * @param {Array} a 
+         * @param {Function} key 
+         */
+        function uniqBy(a, key) {
+            let seen = new Set();
+            return a.filter(item => {
+                let k = key(item);
+                return seen.has(k) ? false : seen.add(k);
+            });
+        }
+
+        var uniqueLabelCountColorArr = uniqBy(labelCountColorArr, function (item) {
+            return item.label;
+        });
+
+
+        var labels = uniqueLabelCountColorArr.map(function (item) {
+                let temp = new Date(item.label);
+                temp.setMinutes(0);
+                temp.setSeconds(0);
+                temp.setMilliseconds(0);
+                temp.setHours(0);
+                return temp;
+            }),
+            counts = uniqueLabelCountColorArr.map(item => item.count),
+            colors = uniqueLabelCountColorArr.map(item => item.color);
+
+        return {
+            "labels": labels,
+            "data": counts,
+            "colors": colors
+        };
     },
     // TODO: ErrorsByHour? maybe
     errorsByHour: function (errors) {
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
