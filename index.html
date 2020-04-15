@@ -8,6 +8,10 @@
     <script type="text/javascript" src="ErrorCruncher.js"></script>
     <script type="text/javascript">
         function showChart(canvasid, chartType, labels, data, colors, chartName) {
+
+            // Chart.defaults.polarArea.borderAlign = 'inner';
+            // Chart.defaults.global.legend.rtl = false;
+            Chart.defaults.global.legend.position = 'left';
             var ctx = document.getElementById(canvasid).getContext('2d');
             var myChart = new Chart(ctx, {
                 type: chartType, // bar, line, pie
@@ -19,15 +23,15 @@
                         backgroundColor: colors,
                         borderColor: colors,
                         borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
+                    }],
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
                     }
                 }
             });
@@ -48,7 +52,7 @@
                 // console.log(errorsByType);
                 showChart(
                     'errorsByType',
-                    'bar',
+                    'polarArea',
                     errorsByType.labels,
                     errorsByType.data,
                     errorsByType.colors,
@@ -57,7 +61,7 @@
                 // console.log(errorsByUser);
                 showChart(
                     'errorsByUser',
-                    'bar',
+                    'polarArea',
                     errorsByUser.labels,
                     errorsByUser.data,
                     errorsByUser.colors,
@@ -66,7 +70,7 @@
                 // console.log(errorsByHost);
                 showChart(
                     'errorsByHost',
-                    'bar',
+                    'polarArea',
                     errorsByHost.labels,
                     errorsByHost.data,
                     errorsByHost.colors,
@@ -75,7 +79,7 @@
                 // console.log(errorsBySource);
                 showChart(
                     'errorsBySource',
-                    'bar',
+                    'polarArea',
                     errorsBySource.labels,
                     errorsBySource.data,
                     errorsBySource.colors,
@@ -108,15 +112,15 @@
         .grid-container {
             display: grid;
             grid-template-columns: auto;
-            background-color: #2196F3;
             text-align: center;
+            background-color: aqua;
         }
 
         .grid-item {
             background-color: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            font-size: 30px;
+        }
+        .pie-chart{
         }
     </style>
 </head>

@@ -6,6 +6,9 @@ var ErrorCruncher = {
     getRandomNumber: function (max) {
         return Math.floor(Math.random() * max);
     },
+    getColorOpacity: function(){
+        return .5;
+    },
     /**
      * 
      * @param {Function} callback 
@@ -13,7 +16,7 @@ var ErrorCruncher = {
     getDataFileAsync: function (callback) {
         'use strict';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/files/data.json', true);
+        xhr.open('GET', '/files/1586957597.json', true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Accept", "application/json");
 
@@ -185,7 +188,7 @@ var ErrorCruncher = {
             labelCountColorArr.push({
                 "label": distinct,
                 "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
             });
         }
 
@@ -215,7 +218,7 @@ var ErrorCruncher = {
             labelCountColorArr.push({
                 "label": distinct,
                 "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
             });
         }
 
@@ -245,7 +248,7 @@ var ErrorCruncher = {
             labelCountColorArr.push({
                 "label": distinct,
                 "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
             });
         }
 
@@ -274,7 +277,7 @@ var ErrorCruncher = {
             labelCountColorArr.push({
                 "label": distinct,
                 "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
             });
         }
 
@@ -314,7 +317,7 @@ var ErrorCruncher = {
             labelCountColorArr.push({
                 "label": distinct,
                 "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
             });
         }
 
@@ -369,7 +372,7 @@ var ErrorCruncher = {
             labelCountColorArr.push({
                 "label": grouped[0].TimeEpoch,
                 "count": grouped.length,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, 0.2)`
+                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
             });
         }
 
@@ -397,7 +400,7 @@ var ErrorCruncher = {
                 temp.setSeconds(0);
                 temp.setMilliseconds(0);
                 temp.setHours(0);
-                return temp;
+                return `${temp.getMonth()}-${temp.getDate()}`;
             }),
             counts = uniqueLabelCountColorArr.map(item => item.count),
             colors = uniqueLabelCountColorArr.map(item => item.color);
