@@ -9,9 +9,8 @@
     <script type="text/javascript">
         function showChart(canvasid, chartType, labels, data, colors, chartName) {
 
-            // Chart.defaults.polarArea.borderAlign = 'inner';
-            // Chart.defaults.global.legend.rtl = false;
-            Chart.defaults.global.legend.position = 'left';
+
+
             var ctx = document.getElementById(canvasid).getContext('2d');
             var myChart = new Chart(ctx, {
                 type: chartType, // bar, line, pie
@@ -23,69 +22,102 @@
                         backgroundColor: colors,
                         borderColor: colors,
                         borderWidth: 1
-                    }],
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
                     }
                 }
             });
         }
 
-
         window.addEventListener("load", function (event) {
 
-            ErrorCruncher.getDataFileAsync(function (response) {
-                var errors = JSON.parse(response).errors,
-                    errorsByType = ErrorCruncher.errorsByType(errors),
-                    errorsByUser = ErrorCruncher.errorsByUser(errors),
-                    errorsByHost = ErrorCruncher.errorsByHost(errors),
-                    errorsBySource = ErrorCruncher.errorsBySource(errors),
-                    errorsByMonth = ErrorCruncher.errorsByMonth(errors),
-                    errorsByDay = ErrorCruncher.errorsByDay(errors);
+            // ErrorCruncher.getDataFileAsync(function (response) {
 
-                // console.log(errorsByType);
+                // var errors = JSON.parse(response).errors,
+                var errors = ErrorCruncher.generateDummyErrors(),
+                    errorsByApplication = ErrorCruncher.aggregateErrorsByKey(errors, item => item
+                        .Application),
+                    errorsByHost = ErrorCruncher.aggregateErrorsByKey(errors, item => item.Host),
+                    errorsByType = ErrorCruncher.aggregateErrorsByKey(errors, item => item.Type),
+                    errorsBySource = ErrorCruncher.aggregateErrorsByKey(errors, item => item.Source),
+                    errorsByStatusCode = ErrorCruncher.aggregateErrorsByKey(errors, item => item
+                        .StatusCode),
+                    errorsByPathInfo = ErrorCruncher.aggregateErrorsByKey(errors, item => item
+                    .PathInfo),
+                    errorsByHttpUserAgent = ErrorCruncher.aggregateErrorsByKey(errors, item => item
+                        .HttpUserAgent),
+                    errorsByHttpReferer = ErrorCruncher.aggregateErrorsByKey(errors, item => item
+                        .HttpReferer),
+                    errorsByDay = ErrorCruncher.errorsByDay(errors),
+                    errorsByMonth = ErrorCruncher.errorsByMonth(errors);
+
                 showChart(
-                    'errorsByType',
-                    'polarArea',
-                    errorsByType.labels,
-                    errorsByType.data,
-                    errorsByType.colors,
-                    'Errors by Type');
+                    'errorsByApplication',
+                    'pie',
+                    errorsByApplication.labels,
+                    errorsByApplication.data,
+                    errorsByApplication.colors,
+                    'Errors by Application');
 
-                // console.log(errorsByUser);
-                showChart(
-                    'errorsByUser',
-                    'polarArea',
-                    errorsByUser.labels,
-                    errorsByUser.data,
-                    errorsByUser.colors,
-                    'Errors by User');
-
-                // console.log(errorsByHost);
                 showChart(
                     'errorsByHost',
-                    'polarArea',
+                    'pie',
                     errorsByHost.labels,
                     errorsByHost.data,
                     errorsByHost.colors,
                     'Errors by Host');
 
-                // console.log(errorsBySource);
+                showChart(
+                    'errorsByType',
+                    'pie',
+                    errorsByType.labels,
+                    errorsByType.data,
+                    errorsByType.colors,
+                    'Errors by Type');
+
                 showChart(
                     'errorsBySource',
-                    'polarArea',
+                    'pie',
                     errorsBySource.labels,
                     errorsBySource.data,
                     errorsBySource.colors,
                     'Errors by Source');
 
-                // console.log(errorsByMonth);
+                showChart(
+                    'errorsByPathInfo',
+                    'pie',
+                    errorsByPathInfo.labels,
+                    errorsByPathInfo.data,
+                    errorsByPathInfo.colors,
+                    'Errors by Path Info');
+
+                showChart(
+                    'errorsByHttpUserAgent',
+                    'pie',
+                    errorsByHttpUserAgent.labels,
+                    errorsByHttpUserAgent.data,
+                    errorsByHttpUserAgent.colors,
+                    'Errors by Http User Agent');
+
+                showChart(
+                    'errorsByHttpReferer',
+                    'pie',
+                    errorsByHttpReferer.labels,
+                    errorsByHttpReferer.data,
+                    errorsByHttpReferer.colors,
+                    'Errors by Http Referer');
+
                 showChart(
                     'errorsByMonth',
                     'line',
@@ -94,7 +126,6 @@
                     errorsByMonth.colors,
                     'Errors by Month');
 
-                // console.log(errorsByDay);
                 showChart(
                     'errorsByDay',
                     'line',
@@ -106,21 +137,21 @@
 
 
             });
-        });
+        // });
     </script>
     <style>
         .grid-container {
             display: grid;
             grid-template-columns: auto;
+            background-color: #2196F3;
             text-align: center;
-            background-color: aqua;
         }
 
         .grid-item {
             background-color: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(0, 0, 0, 0.8);
-        }
-        .pie-chart{
+            padding: 20px;
+            font-size: 30px;
         }
     </style>
 </head>
@@ -129,16 +160,25 @@
 
     <div class="grid-container">
         <div class="grid-item pie-chart">
-            <canvas id="errorsByType"></canvas>
-        </div>
-        <div class="grid-item pie-chart">
-            <canvas id="errorsByUser"></canvas>
+            <canvas id="errorsByApplication"></canvas>
         </div>
         <div class="grid-item pie-chart">
             <canvas id="errorsByHost"></canvas>
         </div>
         <div class="grid-item pie-chart">
+            <canvas id="errorsByType"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
             <canvas id="errorsBySource"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
+            <canvas id="errorsByPathInfo"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
+            <canvas id="errorsByHttpUserAgent"></canvas>
+        </div>
+        <div class="grid-item pie-chart">
+            <canvas id="errorsByHttpReferer"></canvas>
         </div>
         <div class="grid-item bottom-grid-item line-bar-chart">
             <canvas id="errorsByMonth"></canvas>

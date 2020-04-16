@@ -118,7 +118,7 @@ var ErrorCruncher = {
      */
     generateDummyErrors: function () {
 
-        var count = 10000;
+        var count = 100;
         var errors = [];
 
         for (let i = 0; i < count; i++) {
@@ -172,19 +172,19 @@ var ErrorCruncher = {
     },
 
     // pies/doughnuts
-    // TODO: ErrorsByType
     /**
      * TODO
-     * @param {Array} errors 
+     * @param {Array} errors the array of errors
+     * @param {Function} key callback of the item to group/aggregate by
      */
-    errorsByType: function (errors) {
-        const types = [...new Set(errors.map(item => item.Type))];
+    aggregateErrorsByKey: function (errors, key) {
+        const types = [...new Set(errors.map(item => key(item)))];
 
         var labelCountColorArr = [];
         for (let i = 0; i < types.length; i++) {
             let distinct = types[i];
 
-            let count = errors.filter(error => error.Type === distinct).length;
+            let count = errors.filter(item => key(item) === distinct).length;
             labelCountColorArr.push({
                 "label": distinct,
                 "count": count,
@@ -195,95 +195,6 @@ var ErrorCruncher = {
         var labels = labelCountColorArr.map(item => item.label);
         var counts = labelCountColorArr.map(item => item.count);
         var colors = labelCountColorArr.map(item => item.color);
-
-        return {
-            "labels": labels,
-            "data": counts,
-            "colors": colors
-        };
-    },
-    // TODO: ErrorsByUser
-    /**
-     * TODO
-     * @param {Array} errors 
-     */
-    errorsByUser: function (errors) {
-        const users = [...new Set(errors.map(item => item.User))];
-
-        var labelCountColorArr = [];
-        for (let i = 0; i < users.length; i++) {
-            let distinct = users[i];
-
-            let count = errors.filter(error => error.User === distinct).length;
-            labelCountColorArr.push({
-                "label": distinct,
-                "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
-            });
-        }
-
-        var labels = labelCountColorArr.map(item => item.label);
-        var counts = labelCountColorArr.map(item => item.count);
-        var colors = labelCountColorArr.map(item => item.color);
-
-        return {
-            "labels": labels,
-            "data": counts,
-            "colors": colors
-        };
-    },
-    // TODO: ErrorsByDistricts
-    /**
-     * TODO
-     * @param {Array} errors 
-     */
-    errorsByHost: function (errors) {
-        const hosts = [...new Set(errors.map(item => item.Host))];
-
-        var labelCountColorArr = [];
-        for (let i = 0; i < hosts.length; i++) {
-            let distinct = hosts[i];
-
-            let count = errors.filter(error => error.Host === distinct).length;
-            labelCountColorArr.push({
-                "label": distinct,
-                "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
-            });
-        }
-
-        var labels = labelCountColorArr.map(item => item.label);
-        var counts = labelCountColorArr.map(item => item.count);
-        var colors = labelCountColorArr.map(item => item.color);
-
-        return {
-            "labels": labels,
-            "data": counts,
-            "colors": colors
-        };
-    },
-    /**
-     * 
-     * @param {Array} errors 
-     */
-    errorsBySource: function (errors) {
-        const sources = [...new Set(errors.map(item => item.Source))];
-
-        var labelCountColorArr = [];
-        for (let i = 0; i < sources.length; i++) {
-            let distinct = sources[i];
-
-            let count = errors.filter(error => error.Source === distinct).length;
-            labelCountColorArr.push({
-                "label": distinct,
-                "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
-            });
-        }
-
-        var labels = labelCountColorArr.map(item => item.label),
-            counts = labelCountColorArr.map(item => item.count),
-            colors = labelCountColorArr.map(item => item.color);
 
         return {
             "labels": labels,
@@ -410,9 +321,5 @@ var ErrorCruncher = {
             "data": counts,
             "colors": colors
         };
-    },
-    // TODO: ErrorsByHour? maybe
-    errorsByHour: function (errors) {
-
     }
 };
