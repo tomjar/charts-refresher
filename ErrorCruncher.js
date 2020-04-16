@@ -123,17 +123,17 @@ var ErrorCruncher = {
 
         for (let i = 0; i < count; i++) {
             var error = {
-                "errorId": -1,
-                "Application": "defaultapplication",
+                "Application": "application",
                 "Host": ErrorCruncher.generateRandomHost(),
                 "Type": ErrorCruncher.generateRandomType(),
+                "Message": "message",
                 "Source": ErrorCruncher.generateRandomSource(),
-                "Message": "defaultmessage",
-                "User": ErrorCruncher.generateRandomUser(),
-                "StatusCode": "defaultstatuscode",
+                "Detail": "details",
                 "TimeEpoch": ErrorCruncher.generateRandomEpoch(),
-                "Sequence": -1,
-                "AllXML": "defaultAllXML"
+                "StatusCode": "500",
+                "PathInfo": "login.html",
+                "HttpUserAgent": "mozilla",
+                "HttpReferer": "somewhere.com"
             };
 
             errors.push(error);
