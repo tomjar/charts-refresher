@@ -25,10 +25,10 @@
                     }]
                 },
                 options: {
-                    legend: {
-                        position: 'left',
-                        display: true
-                    },
+                    // legend: {
+                    //     position: 'left',
+                    //     display: true
+                    // },
                     scales: {
                         yAxes: [{
                             ticks: {
@@ -62,7 +62,7 @@
 
                 await showChart(
                     'errorsByHost',
-                    'pie',
+                    'bar',
                     errorsByHost.labels,
                     errorsByHost.data,
                     errorsByHost.colors,
@@ -70,7 +70,7 @@
 
                 await showChart(
                     'errorsByType',
-                    'pie',
+                    'bar',
                     errorsByType.labels,
                     errorsByType.data,
                     errorsByType.colors,
@@ -78,7 +78,7 @@
 
                 await showChart(
                     'errorsBySource',
-                    'pie',
+                    'bar',
                     errorsBySource.labels,
                     errorsBySource.data,
                     errorsBySource.colors,
@@ -86,7 +86,7 @@
 
                 await showChart(
                     'errorsByPathInfo',
-                    'pie',
+                    'bar',
                     errorsByPathInfo.labels,
                     errorsByPathInfo.data,
                     errorsByPathInfo.colors,
@@ -94,7 +94,7 @@
 
                 await showChart(
                     'errorsByHttpUserAgent',
-                    'pie',
+                    'bar',
                     errorsByHttpUserAgent.labels,
                     errorsByHttpUserAgent.data,
                     errorsByHttpUserAgent.colors,
@@ -102,7 +102,7 @@
 
                 await showChart(
                     'errorsByHttpReferer',
-                    'pie',
+                    'bar',
                     errorsByHttpReferer.labels,
                     errorsByHttpReferer.data,
                     errorsByHttpReferer.colors,

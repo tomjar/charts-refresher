@@ -16,7 +16,7 @@ var ErrorCruncher = {
     getDataFileAsync: function (callback) {
         'use strict';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/files/1587042800.json', true);
+        xhr.open('GET', '/files/1587734761.json', true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Accept", "application/json");
 
@@ -178,13 +178,14 @@ var ErrorCruncher = {
         var labelCountColorArr = [];
         for (let i = 0; i < types.length; i++) {
             let distinct = types[i];
-
             let count = errors.filter(item => key(item) === distinct).length;
-            labelCountColorArr.push({
-                "label": distinct,
-                "count": count,
-                "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
-            });
+            if (distinct !== '' && count > 100) {
+                labelCountColorArr.push({
+                    "label": distinct,
+                    "count": count,
+                    "color": `rgba(${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getRandomNumber(255)}, ${ErrorCruncher.getColorOpacity()})`
+                });
+            }
         }
 
         var labels = labelCountColorArr.map(item => item.label);
