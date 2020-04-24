@@ -16,7 +16,7 @@ var ErrorCruncher = {
     getDataFileAsync: function (callback) {
         'use strict';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/files/1586957597.json', true);
+        xhr.open('GET', '/files/1587042800.json', true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Accept", "application/json");
 
@@ -107,8 +107,6 @@ var ErrorCruncher = {
         return source;
     },
     generateRandomEpoch: function () {
-        // 1586736047 today
-
         return Math.floor(Math.random() * Date.now());
     },
 
@@ -123,12 +121,11 @@ var ErrorCruncher = {
 
         for (let i = 0; i < count; i++) {
             var error = {
-                "Application": "application",
+                "Sequence": 1,
                 "Host": ErrorCruncher.generateRandomHost(),
                 "Type": ErrorCruncher.generateRandomType(),
                 "Message": "message",
                 "Source": ErrorCruncher.generateRandomSource(),
-                "Detail": "details",
                 "TimeEpoch": ErrorCruncher.generateRandomEpoch(),
                 "StatusCode": "500",
                 "PathInfo": "login.html",
@@ -138,8 +135,6 @@ var ErrorCruncher = {
 
             errors.push(error);
         }
-        // var _100 = errors.slice(0, 99);
-        //console.log(JSON.stringify(_100));
         return errors;
     },
     getMonthName: function (monthNumber) {

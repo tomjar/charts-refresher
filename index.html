@@ -7,7 +7,7 @@
     <script type="text/javascript" src="Chart.js"></script>
     <script type="text/javascript" src="ErrorCruncher.js"></script>
     <script type="text/javascript">
-        function showChart(canvasid, chartType, labels, data, colors, chartName) {
+        async function showChart(canvasid, chartType, labels, data, colors, chartName) {
 
 
 
@@ -42,12 +42,10 @@
 
         window.addEventListener("load", function (event) {
 
-            // ErrorCruncher.getDataFileAsync(function (response) {
+            ErrorCruncher.getDataFileAsync(async function (response) {
 
-                // var errors = JSON.parse(response).errors,
-                var errors = ErrorCruncher.generateDummyErrors(),
-                    errorsByApplication = ErrorCruncher.aggregateErrorsByKey(errors, item => item
-                        .Application),
+                var errors = JSON.parse(response).errors,
+                //var errors = ErrorCruncher.generateDummyErrors(),
                     errorsByHost = ErrorCruncher.aggregateErrorsByKey(errors, item => item.Host),
                     errorsByType = ErrorCruncher.aggregateErrorsByKey(errors, item => item.Type),
                     errorsBySource = ErrorCruncher.aggregateErrorsByKey(errors, item => item.Source),
@@ -62,15 +60,7 @@
                     errorsByDay = ErrorCruncher.errorsByDay(errors),
                     errorsByMonth = ErrorCruncher.errorsByMonth(errors);
 
-                showChart(
-                    'errorsByApplication',
-                    'pie',
-                    errorsByApplication.labels,
-                    errorsByApplication.data,
-                    errorsByApplication.colors,
-                    'Errors by Application');
-
-                showChart(
+                await showChart(
                     'errorsByHost',
                     'pie',
                     errorsByHost.labels,
@@ -78,7 +68,7 @@
                     errorsByHost.colors,
                     'Errors by Host');
 
-                showChart(
+                await showChart(
                     'errorsByType',
                     'pie',
                     errorsByType.labels,
@@ -86,7 +76,7 @@
                     errorsByType.colors,
                     'Errors by Type');
 
-                showChart(
+                await showChart(
                     'errorsBySource',
                     'pie',
                     errorsBySource.labels,
@@ -94,7 +84,7 @@
                     errorsBySource.colors,
                     'Errors by Source');
 
-                showChart(
+                await showChart(
                     'errorsByPathInfo',
                     'pie',
                     errorsByPathInfo.labels,
@@ -102,7 +92,7 @@
                     errorsByPathInfo.colors,
                     'Errors by Path Info');
 
-                showChart(
+                await showChart(
                     'errorsByHttpUserAgent',
                     'pie',
                     errorsByHttpUserAgent.labels,
@@ -110,7 +100,7 @@
                     errorsByHttpUserAgent.colors,
                     'Errors by Http User Agent');
 
-                showChart(
+                await showChart(
                     'errorsByHttpReferer',
                     'pie',
                     errorsByHttpReferer.labels,
@@ -118,7 +108,7 @@
                     errorsByHttpReferer.colors,
                     'Errors by Http Referer');
 
-                showChart(
+                await showChart(
                     'errorsByMonth',
                     'line',
                     errorsByMonth.labels,
@@ -126,7 +116,7 @@
                     errorsByMonth.colors,
                     'Errors by Month');
 
-                showChart(
+                await showChart(
                     'errorsByDay',
                     'line',
                     errorsByDay.labels,
@@ -137,7 +127,7 @@
 
 
             });
-        // });
+        });
     </script>
     <style>
         .grid-container {
@@ -159,9 +149,6 @@
 <body>
 
     <div class="grid-container">
-        <div class="grid-item pie-chart">
-            <canvas id="errorsByApplication"></canvas>
-        </div>
         <div class="grid-item pie-chart">
             <canvas id="errorsByHost"></canvas>
         </div>
