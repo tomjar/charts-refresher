@@ -16,7 +16,7 @@ var ErrorCruncher = {
     getDataFileAsync: function (callback) {
         'use strict';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/files/1587734761.json', true);
+        xhr.open('GET', '/files/1590157425.json', true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Accept", "application/json");
 
@@ -179,7 +179,7 @@ var ErrorCruncher = {
         for (let i = 0; i < types.length; i++) {
             let distinct = types[i];
             let count = errors.filter(item => key(item) === distinct).length;
-            if (distinct !== '' && count > 100) {
+            if (distinct !== '' && count > 10) {
                 labelCountColorArr.push({
                     "label": distinct,
                     "count": count,
@@ -307,7 +307,7 @@ var ErrorCruncher = {
                 temp.setSeconds(0);
                 temp.setMilliseconds(0);
                 temp.setHours(0);
-                return `${temp.getMonth()}-${temp.getDate()}`;
+                return `${ErrorCruncher.getMonthName(temp.getMonth())}-${temp.getDate()}`;
             }),
             counts = uniqueLabelCountColorArr.map(item => item.count),
             colors = uniqueLabelCountColorArr.map(item => item.color);
